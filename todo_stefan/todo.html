@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>To Do</title>
+    <link rel="stylesheet" href="todo.css" />
+  </head>
+  <body>
+    <header class="header">To Do</header>
+    <input type="text" id="input"/>
+    <button type="button" id="button" class="button">Add</button>
+    <ul id="todo-list" class="todo-list"></ul>
+    <script>
+      var addItemButton = document.getElementById("button");
+      var removeItemButtonParent = document.getElementById("todo-list");
+
+      function addElement() {
+        var input = document.getElementById('input').value;
+        var listItem = document.createElement('li');
+
+        listItem.innerHTML = `<div class="todo-list-element-text">${input}</div><button>Delete</button>`
+        listItem.classList.add("todo-list-element");
+
+        document.getElementById('todo-list').appendChild(listItem);
+      };
+
+      function removeElement(event) {
+        var targetElement = event.target.parentElement;
+        var todoList = document.getElementById('todo-list');
+
+        todoList.removeChild(targetElement);
+      }
+
+      addItemButton.addEventListener("click", addElement);
+      removeItemButtonParent.addEventListener("click", removeElement);
+
+    </script>
+  </body>
+</html>
