@@ -11,28 +11,53 @@
     <ul id="todo-list" class="todo-list"></ul>
     <script>
       var addItemButton = document.getElementById("button");
-      var removeItemButtonParent = document.getElementById("todo-list");
+      var todoListElement = document.getElementById("todo-list");
 
-      function addElement() {
+      function add() {
         var input = document.getElementById('input').value;
         var listItem = document.createElement('li');
 
-        listItem.innerHTML = `<div class="todo-list-element-text">${input}</div><button>Delete</button>`
+        listItem.innerHTML = `<div class="todo-list-element-text">${input}</div><button class="deleteBtn">Delete</button>`;
         listItem.classList.add("todo-list-element");
 
         document.getElementById('todo-list').appendChild(listItem);
       };
 
-      function removeElement(event) {
+      function removeOrEdit(event) {
+        var targetElement = event.target;
+
+        if (targetElement.className === "deleteBtn") {
+          remove(event);
+        } else if (targetElement.className === "todo-list-element-text") {
+          edit(event);
+        } else if (targetElement.className === "saveBtn") {
+          save(event);
+        }
+      };
+
+      function remove(event) {
         var targetElement = event.target.parentElement;
         var todoList = document.getElementById('todo-list');
 
         todoList.removeChild(targetElement);
+        console.log(event.target);
       };
 
-      addItemButton.addEventListener("click", addElement);
-      removeItemButtonParent.addEventListener("click", removeElement);
+      function edit(event) {
+        var targetElement = event.target.parentElement;
 
+        targetElement.innerHTML = `<input type="text" id="itemText"/><button class="saveBtn">Save</button>`;
+      };
+
+      function save(event) {
+        var input = document.getElementById('itemText').value;
+        var targetElement = event.target.parentElement;
+
+        targetElement.innerHTML = `<div class="todo-list-element-text">${input}</div><button class="deleteBtn">Delete</button>`;
+      }
+
+      addItemButton.addEventListener("click", add);
+      todoListElement.addEventListener("click", removeOrEdit);
     </script>
   </body>
 </html>
